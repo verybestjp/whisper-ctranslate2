@@ -36,14 +36,14 @@ class Diarization:
             model_name, use_auth_token=self.use_auth_token
         ).to(device)
 
-    def run_model(self, audio: str):
+    def run_model(self, audio: str, num_speakers):
         self._load_model()
         audio = decode_audio(audio)
         audio_data = {
             "waveform": torch.from_numpy(audio[None, :]),
             "sample_rate": 16000,
         }
-        segments = self.model(audio_data)
+        segments = self.model(audio_data, num_speakers=num_speakers)
         return segments
 
     def assign_speakers_to_segments(self, segments, transcript_result, speaker_name):

@@ -11,14 +11,14 @@ import datetime
 from .commandline import CommandLine
 
 
-def get_diarization(audio, diarize_model, verbose):
+def get_diarization(audio, diarize_model, num_speakers, verbose):
     diarization_output = {}
     for audio_path in audio:
         if verbose and len(audio) > 1:
             print(f"\nFile: '{audio_path}' (diarization)")
 
         start_time = datetime.datetime.now()
-        diarize_segments = diarize_model.run_model(audio_path)
+        diarize_segments = diarize_model.run_model(audio_path, num_speakers)
         diarization_output[audio_path] = diarize_segments
         if verbose:
             print(f"Time used for diarization: {datetime.datetime.now() - start_time}")
@@ -105,6 +105,7 @@ def main():
     live_input_device: int = args.pop("live_input_device")
     hf_token = args.pop("hf_token")
     speaker_name = args.pop("speaker_name")
+    num_speakers: int = args.pop("num_speakers")
 
     language = get_language(language, model_directory, model)
     options = get_transcription_options(args)
@@ -204,7 +205,7 @@ def main():
 
     diarization_output = {}
     if diarization:
-        diarization_output = get_diarization(audio, diarize_model, verbose)
+        diarization_output = get_diarization(audio, diarize_model, num_speakers, verbose)
 
     # We need to do first the diarization of all files because CTranslate2 and torch
     # use incompatible CUDA versions and once CTranslate2 is used torch will not work
