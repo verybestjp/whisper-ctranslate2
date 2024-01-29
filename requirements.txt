@@ -1,5 +1,5 @@
 numpy
-faster-whisper>=0.10.0
+faster-whisper @ git+https://github.com/verybestjp/faster-whisper
 ctranslate2
 tqdm
 sounddevice
