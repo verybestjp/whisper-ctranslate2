@@ -30,7 +30,7 @@ class Diarization:
         torch.cuda.empty_cache()
 
     def _load_model(self):
-        model_name = "pyannote/speaker-diarization-3.1"
+        model_name = "speaker-diarization/speaker-diarization-3.1/config.yaml"
         device = torch.device(self.device)
         self.model = Pipeline.from_pretrained(
             model_name, use_auth_token=self.use_auth_token
