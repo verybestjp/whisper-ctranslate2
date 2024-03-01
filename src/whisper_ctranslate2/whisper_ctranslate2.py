@@ -192,7 +192,7 @@ def main():
         local_files_only,
     )
 
-    diarization = len(hf_token) > 0
+    diarization = num_speakers and num_speakers > 0
 
     if diarization:
         # Import is done here then dependencies like torch are only imported if we really need diarization
